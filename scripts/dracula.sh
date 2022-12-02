@@ -191,16 +191,23 @@ main()
       script="#(cat $datafile)"
     fi
 
+    if [ $plugin = "utc-time" ]; then
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-utc-time-colors" "orange dark_gray")
+      # script="#(date --utc '+%H:%M %Z')" # Did not work - shows EDT time rather than UTC
+      # script="#(date --utc)" # Shows UTC time with all details
+      script="UTC%z"
+    fi
+
     if [ $plugin = "time" ]; then
       IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-time-colors" "dark_purple white")
       if $show_day_month && $show_military ; then # military time and dd/mm
-        script="%a %d/%m %R ${timezone} "
+        script="%a %d-%b %R ${timezone}"
       elif $show_military; then # only military time
-        script="%a %m/%d %R ${timezone} "
+        script="%a %b-%d %R ${timezone}"
       elif $show_day_month; then # only dd/mm
-        script="%a %d/%m %I:%M %p ${timezone} "
+        script="%a %d-%b %I:%M %p${timezone}"
       else
-        script="%a %m/%d %I:%M %p ${timezone} "
+        script="%a %b-%d %I:%M %p${timezone}"
       fi
     fi
 
