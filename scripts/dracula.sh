@@ -193,6 +193,11 @@ main()
       script="#(cat $datafile)"
     fi
 
+    if [ $plugin = "wttr-weather" ]; then
+      # plugin 'aaronpowell/tmux-weather' provides #{forecast}
+      script='#{forecast}'
+    fi
+
     if [ $plugin = "utc-time" ]; then
       IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-utc-time-colors" "orange dark_gray")
       # script="#(date --utc '+%H:%M %Z')" # Did not work - shows EDT time rather than UTC
