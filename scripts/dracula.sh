@@ -76,7 +76,7 @@ main()
     false)
       timezone="";;
     true)
-      timezone="#(date +%Z)";;
+      timezone=" #(date +%Z)";;
   esac
 
   case $show_flags in
@@ -106,22 +106,24 @@ main()
   if $show_border_contrast; then
     tmux set-option -g pane-active-border-style "fg=${light_purple}"
   else
-    tmux set-option -g pane-active-border-style "fg=${dark_purple}"
+    tmux set-option -g pane-active-border-style "fg=${white}"
   fi
-  tmux set-option -g pane-border-style "fg=${gray}"
+  tmux set-option -g pane-border-style "fg=${dark_purple}"
 
   # message styling
   tmux set-option -g message-style "bg=${gray},fg=${white}"
 
   # status bar
-  tmux set-option -g status-style "bg=${gray},fg=${white}"
+  tmux set-option -g status-style "bg=${dark_gray},fg=${white}"
 
   # Status left
   if $show_powerline; then
-    tmux set-option -g status-left "#[bg=${green},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}],} ${left_icon} #[fg=${green},bg=${gray}]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
+    tmux set-option -g status-left "#[bg=${green},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}],} ${left_icon}#[fg=${green},bg=${gray}]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
     powerbg=${gray}
   else
-    tmux set-option -g status-left "#[bg=${green},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}],} ${left_icon}"
+    # tmux set-option -g status-left "#[fg=${white},bg=${dark_purple}]#{?client_prefix,#[bg=${yellow}],} ${left_icon}#[fg=${pink}]#[bg=${dark_gray}] "
+    status_left_bg_color=$(get_tmux_option "@dracula-status-left-bg-color" "dark_purple")
+    tmux set-option -g status-left "#[fg=${white},bg=${status_left_bg_color}]#{?client_prefix,#[bg=${yellow}],} ${left_icon}#[fg=${pink}]#[bg=${dark_gray}] "
   fi
 
   # Status right
@@ -220,6 +222,7 @@ main()
       powerbg=${!colors[0]}
     else
       tmux set-option -ga status-right "#[fg=${!colors[1]},bg=${!colors[0]}] $script "
+      # tmux set-option -ga status-right "#[fg=${!colors[1]},bg=${!colors[0]}] $script #{?client_prefix,#[bg=${yellow}],}"
     fi
   done
 
