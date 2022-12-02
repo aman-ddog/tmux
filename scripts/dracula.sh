@@ -31,6 +31,7 @@ main()
   white='#f8f8f2'
   gray='#44475a'
   dark_gray='#282a36'
+  middark_gray='#383a46'
   light_purple='#bd93f9'
   dark_purple='#6272a4'
   cyan='#8be9fd'
@@ -218,7 +219,8 @@ main()
     tmux set-window-option -g window-status-current-format "#[fg=${white},bg=${dark_purple}] #I #W${current_flags} "
   fi
 
-  tmux set-window-option -g window-status-format "#[fg=${white}]#[bg=${gray}] #I #W${flags}"
+  # tmux set-window-option -g window-status-format "#[fg=${white}]#[bg=${gray}] #I #W${flags}"
+  tmux set-window-option -g window-status-format "#[fg=${pink}]#[bg=${middark_gray}] #I #[fg=${white},bg=${middark_gray}]#W${flags} "
   tmux set-window-option -g window-status-activity-style "bold"
   tmux set-window-option -g window-status-bell-style "bold"
 }
