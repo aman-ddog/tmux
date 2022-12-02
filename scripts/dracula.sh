@@ -195,6 +195,7 @@ main()
 
     if [ $plugin = "wttr-weather" ]; then
       # plugin 'aaronpowell/tmux-weather' provides #{forecast}
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-weather-colors" "orange dark_gray")
       script='#{forecast}'
     fi
 
